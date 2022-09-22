@@ -14,13 +14,18 @@ namespace LambdaAnimals
             Dog d5 = new Dog("Daisy", 8);
             List<Dog> dogs = new List<Dog> { d1, d2, d3, d4, d5 };
 
-            bool WGT40(Dog d) { return d.Weight > 40;}
+
 
             //(Dog d) => { return d.Weight > 40; }
 
             // Print out all Dogs with a weight larger than 40 kg.
-            ConditionalPrint(dogs, WGT40);
-            ConditionalPrint(dogs, (Dog d) => {return d.Weight > 40; });
+            Predicate<Dog> predDogWeight = null;
+            bool WGT40(Dog d) { return d.Weight > 40; }
+            //predDogWeight = WGT40;
+            predDogWeight = (Dog d) => { return d.Weight > 40; };
+            ConditionalPrint(dogs, predDogWeight);
+
+            //Short form: ConditionalPrint(dogs, (Dog d) => {return d.Weight > 40; });
 
             // Print out all Dogs with a weight smaller than Rufus' weight.
             ConditionalPrint(dogs, (Dog d) => { return d.Weight < d3.Weight; });
@@ -34,7 +39,13 @@ namespace LambdaAnimals
             ConditionalPrint2<Dog>(dogs,
                                    (Dog d) => { return d.Weight > 40; },
                                    (Dog d) => { return d.Name.ToUpper().Contains("I"); });
-                   
+
+            Console.WriteLine("MultiConditionalPrint");
+            List<Predicate<Dog>> multiPred = new List<Predicate<Dog>>();
+            multiPred.Add((Dog d) => { return d.Weight > 40;});
+            multiPred.Add((Dog d) => { return d.Name.ToUpper().Contains("I"); });
+            MultiConditionalPrint<Dog>(dogs, multiPred); 
+
 
             KeepConsoleWindowOpen();
         }
